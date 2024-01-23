@@ -4,6 +4,7 @@ import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { useEffect, useState } from "react";
 import { GoogleSignin, GoogleSigninButton, statusCodes } from "@react-native-google-signin/google-signin";
+import * as SecureStore from "expo-secure-store";
 
 export default function TabOneScreen() {
   const [userInfo, setUserInfo] = useState<any>(null);
@@ -43,10 +44,37 @@ export default function TabOneScreen() {
 
   console.log(userInfo);
 
+  async function handleSetStorage() {
+    // console.log("handleSetStorage");
+    const result: any = await SecureStore.setItemAsync("myKey", "Justin Hemnath");
+    if (result) {
+      alert(result);
+    } else {
+      alert("No key");
+    }
+  }
+
+  async function handleGetStorage() {
+    const result: any = await SecureStore.getItemAsync("myKey");
+    if (result) {
+      alert(result);
+    } else {
+      alert("No key");
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => signIn()}>
+      <Pressable onPress={() => signIn()} style={styles.box}>
         <Text>Sign In</Text>
+      </Pressable>
+
+      <Pressable onPress={() => handleSetStorage()} style={[styles.box, styles.buttonOne]}>
+        <Text>Set storage</Text>
+      </Pressable>
+
+      <Pressable onPress={() => handleGetStorage()} style={[styles.box, styles.buttonTwo]}>
+        <Text>Get storage</Text>
       </Pressable>
       <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
@@ -69,5 +97,14 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: "80%",
+  },
+  box: {
+    marginVertical: 20,
+  },
+  buttonOne: {
+    backgroundColor: "red",
+  },
+  buttonTwo: {
+    backgroundColor: "green",
   },
 });
