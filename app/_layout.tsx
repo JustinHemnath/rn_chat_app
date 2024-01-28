@@ -1,16 +1,13 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { Auth } from "@/utils/auth.utils";
-import { ROUTE } from "@/constants/routes.constants";
-import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import "../global.css";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -69,7 +66,8 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="(home)/chats" options={{}} />
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="sign_in/index" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );
