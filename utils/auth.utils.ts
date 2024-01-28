@@ -17,7 +17,7 @@ export class Auth {
     }
   }
 
-  static async signIn() {
+  static async signIn({ createUser }: any) {
     try {
       await GoogleSignin.hasPlayServices();
       const googleInfo = await GoogleSignin.signIn();
@@ -25,6 +25,7 @@ export class Auth {
         alert("Failed to sign in through google. Try again");
       } else {
         const { name, id, email } = googleInfo.user;
+        // await createUser({ name, email });
         await SecureStore.setItemAsync(AUTH.USER_DETAILS_TOKEN, JSON.stringify({ name, id, email }));
         router.replace("/");
       }
