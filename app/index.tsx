@@ -2,10 +2,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, View } from "react-native";
 import { Auth } from "@/utils/auth.utils";
 import { router } from "expo-router";
-import { useAuthStore } from "@/stores/auth.store";
+import { useSelector } from "react-redux";
+import { RootState } from "@/stores/store";
 
 export default function Home() {
-  const userDetails = useAuthStore((state) => state.userDetails);
+  let userDetails = useSelector((state: RootState) => state.auth.value.userDetails);
   if (!userDetails) Auth.validateUser();
 
   console.log(userDetails);

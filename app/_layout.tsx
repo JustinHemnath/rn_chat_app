@@ -5,9 +5,11 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { Provider } from "react-redux";
 
 import { useColorScheme } from "@/components/useColorScheme";
 import "../global.css";
+import { store } from "@/stores/store";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -65,10 +67,12 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="sign_in/index" options={{ headerShown: false }} />
-      </Stack>
+      <Provider store={store}>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="sign_in/index" options={{ headerShown: false }} />
+        </Stack>
+      </Provider>
     </ThemeProvider>
   );
 }

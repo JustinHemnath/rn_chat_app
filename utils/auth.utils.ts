@@ -1,8 +1,9 @@
 import * as SecureStore from "expo-secure-store";
 import { AUTH } from "@/constants/auth.constants";
 import { router } from "expo-router";
-import { useAuthStore } from "@/stores/auth.store";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
+import { store } from "@/stores/store";
+import { setUserDetails } from "@/stores/auth.slice";
 
 export class Auth {
   static async validateUser() {
@@ -11,9 +12,8 @@ export class Auth {
     if (!userDetailsJson) {
       router.replace("/sign_in/");
     } else {
-      const setUserDetails = useAuthStore.getState().setUserDetails;
       const userDetails = JSON.parse(userDetailsJson);
-      setUserDetails(userDetails);
+      store.dispatch(setUserDetails(userDetails));
     }
   }
 
