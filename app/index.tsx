@@ -7,6 +7,7 @@ import { RootState } from "@/stores/store";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as SecureStore from "expo-secure-store";
 import { AUTH } from "@/constants/auth.constants";
+import MessageList from "@/components/Messages/MessageList";
 
 export default function Home() {
   let userDetails = useSelector((state: RootState) => state.auth.value.userDetails);
@@ -31,9 +32,11 @@ export default function Home() {
           <Text className="text-white text-2xl font-semibold">{userDetails?.name || "user"}</Text>
         </View>
 
-        <Pressable className="my-10 w-[10rem]" onPress={() => handleSignOut()}>
+        {/* <Pressable className="my-10 w-[10rem]" onPress={() => handleSignOut()}>
           <Text className="text-black text-2xl p-4 text-center rounded-lg font-semibold bg-red-500">Sign Out</Text>
-        </Pressable>
+        </Pressable> */}
+
+        <MessageList />
       </View>
     </SafeAreaView>
   );
