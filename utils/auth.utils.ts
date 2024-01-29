@@ -4,6 +4,8 @@ import { router } from "expo-router";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
 import { store } from "@/stores/store";
 import { setUserDetails } from "@/stores/auth.slice";
+import { saveUserThunk } from "@/stores/services/users.api";
+import { ToastAndroid } from "react-native";
 
 export class Auth {
   static async validateUser() {
@@ -17,7 +19,7 @@ export class Auth {
     }
   }
 
-  static async signIn({ createUser }: any) {
+  static async signIn() {
     try {
       await GoogleSignin.hasPlayServices();
       const googleInfo = await GoogleSignin.signIn();
@@ -25,9 +27,19 @@ export class Auth {
         alert("Failed to sign in through google. Try again");
       } else {
         const { name, id, email } = googleInfo.user;
-        // await createUser({ name, email });
-        await SecureStore.setItemAsync(AUTH.USER_DETAILS_TOKEN, JSON.stringify({ name, id, email }));
-        router.replace("/");
+        const response = await store.dispatch(saveUserThunk({ name, email }));
+        const { userCreated, userExists } = response.payload;
+
+        if (userCreated || userExists) {
+          await SecureStore.setItemAsync(AUTH.USER_DETAILS_TOKEN, JSON.stringify({ name, id, email }));
+          router.replace("/");
+        } else {
+          ToastAndroid.showWithGravity(
+            "Failed to create user. Name or email was not found in your gmail account.",
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP
+          );
+        }
       }
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
