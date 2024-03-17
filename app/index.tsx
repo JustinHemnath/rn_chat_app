@@ -8,6 +8,7 @@ import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import * as SecureStore from "expo-secure-store";
 import { AUTH } from "@/constants/auth.constants";
 import MessageList from "@/components/Messages/MessageList";
+import SendMessage from "@/components/SendMessage/SendMessage";
 
 export default function Home() {
   let userDetails = useSelector((state: RootState) => state.auth.value.userDetails);
@@ -27,8 +28,8 @@ export default function Home() {
 
   return (
     <SafeAreaView>
-      <View className="h-full bg-white">
-        <View className="px-4 h-14 rounded-b-lg flex w-full bg-emerald-700 shadow-lg items-center justify-center">
+      <View className="h-screen bg-white flex ">
+        <View className="px-4 h-[5%] rounded-b-lg flex w-full bg-emerald-700 shadow-lg items-center justify-center">
           <Text className="text-white text-2xl font-semibold">{userDetails?.name || "user"}</Text>
         </View>
 
@@ -37,6 +38,8 @@ export default function Home() {
         </Pressable> */}
 
         <MessageList />
+
+        <SendMessage />
       </View>
     </SafeAreaView>
   );
